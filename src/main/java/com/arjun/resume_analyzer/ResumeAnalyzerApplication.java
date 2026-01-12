@@ -10,4 +10,4 @@ public class ResumeAnalyzerApplication {
 		SpringApplication.run(ResumeAnalyzerApplication.class, args);
 	}
 
-}
+} 

@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.arjun.resume_analyzer.dto.resume;
 import com.arjun.resume_analyzer.services.ApiService;
+
 @RestController
 @RequestMapping("/api")
 public class Api {
@@ -25,5 +27,8 @@ public class Api {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/analyze")
+    @PostMapping("/analyzeResume")
+    public String analyzeResumePost(@RequestBody resume Resume) {
+        return api.analyzeResumeService(Resume.getResumeText(),Resume.getCandidateName(),Resume.getRole());
+    }
 }
