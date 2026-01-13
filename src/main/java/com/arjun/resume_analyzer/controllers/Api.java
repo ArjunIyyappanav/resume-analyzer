@@ -31,4 +31,11 @@ public class Api {
     public String analyzeResumePost(@RequestBody resume Resume) {
         return api.analyzeResumeService(Resume.getResumeText(),Resume.getCandidateName(),Resume.getRole());
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/getresumes")
+    public String getresumes(){
+        return api.getall();
+    }
+
 }
