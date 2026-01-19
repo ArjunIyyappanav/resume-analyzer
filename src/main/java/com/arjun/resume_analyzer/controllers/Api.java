@@ -1,14 +1,18 @@
 package com.arjun.resume_analyzer.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+//  import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.arjun.resume_analyzer.dto.resume;
+import com.arjun.resume_analyzer.dto.request;
 import com.arjun.resume_analyzer.services.ApiService;
+import com.arjun.resume_analyzer.dto.response;
 
 @RestController
 @RequestMapping("/api")
@@ -21,15 +25,15 @@ public class Api {
     }
     
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/analyze")
-    public String analyzeResume(@RequestBody String resume) {
-        return api.analyzeResumeService(resume);
+    @GetMapping("/resume/{id}/analyze")
+    public @ResponseBody response analyzeResume(@PathVariable long id) {
+        return api.analyzeResumeService(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/analyzeResume")
-    public String analyzeResumePost(@RequestBody resume Resume) {
-        return api.analyzeResumeService(Resume.getResumeText(),Resume.getCandidateName(),Resume.getRole());
+    @PostMapping("/resume")
+    public long analyzeResumePost(@RequestBody request resume) {
+        return api.storeResumeService(resume);
     }
 
     @ResponseStatus(HttpStatus.OK)

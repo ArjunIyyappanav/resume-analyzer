@@ -1,6 +1,6 @@
 package com.arjun.resume_analyzer.dto;
 
-public class resume {
+public class request {
     private String ResumeText;
     private String CandidateName;
     private String Role;

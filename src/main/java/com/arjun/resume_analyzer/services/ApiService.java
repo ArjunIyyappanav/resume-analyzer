@@ -1,29 +1,44 @@
 package com.arjun.resume_analyzer.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.arjun.resume_analyzer.entity.ResumeAnalysis;
 import com.arjun.resume_analyzer.repository.ResumeAnalysisRepository;
+import com.arjun.resume_analyzer.dto.request;
+import com.arjun.resume_analyzer.dto.response;
+
 @Service
 public class ApiService {
-
-    // ✅ FIELD goes here (class level)
     private final ResumeAnalysisRepository repository;
 
-    // ✅ Constructor injection (BEST PRACTICE)
     public ApiService(ResumeAnalysisRepository repository) {
         this.repository = repository;
     }
 
-    // Simple version (optional)
-    public String analyzeResumeService(String resume) {
-        return "Resume analysis result : Good job!";
+    public @ResponseBody response analyzeResumeService(long resume_id){
+
+        ResumeAnalysis resume = repository
+        .findById(resume_id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid resume ID"));
+
+        String CandidateName = resume.getCandidateName();
+        String Role = resume.getRole();
+        //String ResumeText = resume.getResumeContent();
+
+        response response_analyze_result = new response();
+        response_analyze_result.setAnalysisResult("Resume ID: "+resume_id+" analyzed successfully. Good Resume");
+        response_analyze_result.setCandidateName(CandidateName);
+        response_analyze_result.setRole(Role);
+
+        return response_analyze_result;
     }
 
-    // Main persistence method
-    public String analyzeResumeService(String resumeText,
-                                       String candidateName,
-                                       String role) {
+    public long storeResumeService(@RequestBody request resume) {
+        String candidateName = resume.getCandidateName();
+        String role = resume.getRole();
+        String resumeText = resume.getResumeText();
 
         ResumeAnalysis resumeAnalysis = new ResumeAnalysis();
 
@@ -31,10 +46,8 @@ public class ApiService {
         resumeAnalysis.setResumeContent(resumeText);
         resumeAnalysis.setRole(role);
 
-        // Save to DB
         ResumeAnalysis saved = repository.save(resumeAnalysis);
-
-        return "Resume analysis saved with id: " + saved.getId();
+        return saved.getId();
     }
 
     public String getall(){
