@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.arjun.resume_analyzer.dto.request;
 import com.arjun.resume_analyzer.services.ApiService;
 import com.arjun.resume_analyzer.dto.response;
+import com.arjun.resume_analyzer.entity.ResumeAnalysis;
+import com.arjun.resume_analyzer.dto.resultresponse;
 
 @RestController
 @RequestMapping("/api")
@@ -23,10 +25,16 @@ public class Api {
     public Api(ApiService api) {
         this.api = api;
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/resume/{id}")
+    public @ResponseBody response getResumeById(@PathVariable long id) {
+        return api.getResumeService(id);
+    }
     
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/resume/{id}/analyze")
-    public @ResponseBody response analyzeResume(@PathVariable long id) {
+    public @ResponseBody resultresponse analyzeResume(@PathVariable long id) {
         return api.analyzeResumeService(id);
     }
 
@@ -38,7 +46,7 @@ public class Api {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/getresumes")
-    public String getresumes(){
+    public ResumeAnalysis[] getresumes(){
         return api.getall();
     }
 

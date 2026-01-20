@@ -8,6 +8,7 @@ import com.arjun.resume_analyzer.entity.ResumeAnalysis;
 import com.arjun.resume_analyzer.repository.ResumeAnalysisRepository;
 import com.arjun.resume_analyzer.dto.request;
 import com.arjun.resume_analyzer.dto.response;
+import com.arjun.resume_analyzer.dto.resultresponse;
 
 @Service
 public class ApiService {
@@ -17,7 +18,25 @@ public class ApiService {
         this.repository = repository;
     }
 
-    public @ResponseBody response analyzeResumeService(long resume_id){
+    public @ResponseBody resultresponse analyzeResumeService(long resume_id){
+
+        ResumeAnalysis resume = repository
+        .findById(resume_id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid resume ID"));
+
+        long resumeId = resume.getId();
+        int resumeScore = resume.getScore();
+        String resumeFeedback = resume.getFeedback();
+        
+
+        resultresponse response_result = new resultresponse();
+        response_result.setId(resumeId);
+        response_result.setScore(resumeScore);
+        response_result.setFeedback(resumeFeedback);
+        return response_result;
+    }
+
+    public @ResponseBody response getResumeService(long resume_id){
 
         ResumeAnalysis resume = repository
         .findById(resume_id)
@@ -27,12 +46,11 @@ public class ApiService {
         String Role = resume.getRole();
         //String ResumeText = resume.getResumeContent();
 
-        response response_analyze_result = new response();
-        response_analyze_result.setAnalysisResult("Resume ID: "+resume_id+" analyzed successfully. Good Resume");
-        response_analyze_result.setCandidateName(CandidateName);
-        response_analyze_result.setRole(Role);
+        response response_get_result = new response();
+        response_get_result.setCandidateName(CandidateName);
+        response_get_result.setRole(Role);
 
-        return response_analyze_result;
+        return response_get_result;
     }
 
     public long storeResumeService(@RequestBody request resume) {
@@ -46,19 +64,23 @@ public class ApiService {
         resumeAnalysis.setResumeContent(resumeText);
         resumeAnalysis.setRole(role);
 
+        //AI Analysis Simulation
+        resumeAnalysis.setScore(85);
+        resumeAnalysis.setFeedback("Well-structured resume with relevant experience.");
+
         ResumeAnalysis saved = repository.save(resumeAnalysis);
+
+        resumeAnalysis.setId(saved.getId());
+
         return saved.getId();
     }
 
-    public String getall(){
-        StringBuffer sb=new StringBuffer();
-        for(ResumeAnalysis r:repository.findAll()){
-            sb.append("ID: "+r.getId()+"\n");
-            sb.append("Candidate Name: "+r.getCandidateName()+"\n");
-            sb.append("Role: "+r.getRole()+"\n");
-            sb.append("Resume Content: "+r.getResumeContent()+"\n");
-            sb.append("-------------------------------\n");
+    public ResumeAnalysis[] getall(){
+        ResumeAnalysis resumes[] = new ResumeAnalysis[100];
+        int a = 0;
+        for(ResumeAnalysis r : repository.findAll()){
+            resumes[a++] = r;
         }
-        return sb.toString();
+        return resumes;
     }
 }

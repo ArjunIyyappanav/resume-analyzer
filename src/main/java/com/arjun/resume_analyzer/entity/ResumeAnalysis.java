@@ -23,6 +23,28 @@ public class ResumeAnalysis {
     @Column(name = "role")
     private String role;
 
+    @Column(name= "score")
+    private Integer score;
+
+    @Column(name="feedback")
+    private String feedback;
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public String getFeedback(){
+        return feedback;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public void setFeedback(String feedback){
+        this.feedback = feedback;
+    }
+    
     public Long getId() {
         return id;
     }

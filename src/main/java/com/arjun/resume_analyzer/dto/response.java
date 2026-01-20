@@ -2,7 +2,6 @@ package com.arjun.resume_analyzer.dto;
 
 public class response {
     private int id;
-    private String analysisResult;
     private String candidateName;
     private String role;
 
@@ -12,14 +11,6 @@ public class response {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getAnalysisResult() {
-        return analysisResult;
-    }
-
-    public void setAnalysisResult(String analysisResult) {
-        this.analysisResult = analysisResult;
     }
 
     public String getCandidateName() {
