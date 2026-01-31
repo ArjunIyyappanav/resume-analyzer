@@ -4,6 +4,15 @@ public class response {
     private int id;
     private String candidateName;
     private String role;
+    private String resumeText;
+
+    public String getResumeText() {
+        return resumeText;
+    }
+
+    public void setResumeText(String resumeText) {
+        this.resumeText = resumeText;
+    }
 
     public int getId() {
         return id;

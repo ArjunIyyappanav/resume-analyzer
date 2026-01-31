@@ -44,24 +44,26 @@ public class ApiService {
 
         String CandidateName = resume.getCandidateName();
         String Role = resume.getRole();
-        //String ResumeText = resume.getResumeContent();
+        String ResumeText = resume.getResumeContent();
 
         response response_get_result = new response();
         response_get_result.setCandidateName(CandidateName);
         response_get_result.setRole(Role);
+        response_get_result.setResumeText(ResumeText);
 
         return response_get_result;
     }
 
-    public long storeResumeService(@RequestBody request resume) {
-        String candidateName = resume.getCandidateName();
-        String role = resume.getRole();
-        String resumeText = resume.getResumeText();
+    public long storeResumeService(@RequestBody String resumeContent) {
+        //Analyze the resume content using AI (Simulated here)
+        String candidateName = "John Doe";  
+        String role = "Software Engineer";
+        String resumeText = resumeContent;
 
         ResumeAnalysis resumeAnalysis = new ResumeAnalysis();
 
         resumeAnalysis.setCandidateName(candidateName);
-        resumeAnalysis.setResumeContent(resumeText);
+        resumeAnalysis.setResumeContent(resumeText.substring(0,100));
         resumeAnalysis.setRole(role);
 
         //AI Analysis Simulation
